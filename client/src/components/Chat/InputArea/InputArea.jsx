@@ -19,10 +19,19 @@ const InputArea = ({
   const [getSuggestions, { isSuccess, isLoading, isError, data }] =
     useGenerateConversationTopicsMutation();
   const [text, setText] = useState("");
+  const handleInputChange = (e) => {
+    setText(e.target.value);
+  };
   const handleOnClick = async () => {
     await handleSendMsg(text);
     setText("");
   };
+  // const handleEnterPress = (e) => {
+  //   if (e.key === "Enter") {
+  //     setText(e.target.value);
+  //     return handleOnClick();
+  //   }
+  // };
 
   useEffect(() => {
     if (isSuccess && !isLoading && !isError) {
@@ -52,7 +61,8 @@ const InputArea = ({
         </RecommendedButton>
         <InputComponent
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={handleInputChange}
+          // onKeyUp={handleEnterPress}
           placeholder="Start typing..."
         />
         <SendButton onClick={handleOnClick}>
