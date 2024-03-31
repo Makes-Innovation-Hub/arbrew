@@ -27,7 +27,6 @@ const MapPage = () => {
 
   const { lat, lon } = extractLatLon(location);
 
-  // Convert coordinates into a string format
   const coordinatesString = `${lat},${lon}`;
   console.log("Coordinates:", coordinatesString);
 
@@ -40,11 +39,10 @@ const MapPage = () => {
               <ArrowLeft />
             </Link>
           }
-          title={"Map"} // Provide the title for the map page
+          title={"Map"}
         />
       </StyledMargin>
       <UpcomingStyledPage>
-        {/* Pass lat and lon as separate props to MapComponent */}
         <MapComponent lat={lat} lon={lon} />
       </UpcomingStyledPage>
     </div>

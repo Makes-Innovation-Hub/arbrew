@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import {
@@ -6,7 +6,7 @@ import {
   useGetMeetupByIdQuery,
   useUpdateMeetupMutation,
 } from "../../features/meetupApi";
-
+import AutocompleteDropdown from "./AutocompleteDropdown/AutocompleteDropdown"; // AutocompleteDropdown component
 import { StyledMargin, StyledPage } from "../../styles";
 
 import {
@@ -34,6 +34,8 @@ const MeetupForm = () => {
   const [description, setDescription] = useState("");
   const [remainingChars, setRemainingChars] = useState(30);
   const [isMeetingId, setIsMeetingId] = useState(false);
+  const [suggestions, setSuggestions] = useState([]); // State to manage autocomplete suggestions
+  const timeoutRef = useRef(null);
 
   const [createMeetup, { isLoading, isError }] = useCreateMeetupMutation();
   const [updateMeetupMutation] = useUpdateMeetupMutation();
@@ -109,11 +111,39 @@ const MeetupForm = () => {
       console.error("Error updating meetup:", error);
     }
   };
-
   const handleTitleChange = (e) => {
     const inputText = e.target.value;
     setTitle(inputText);
     setRemainingChars(30 - inputText.length);
+  };
+  const handleLocationChange = useCallback(async (e) => {
+    const currentValue = e.target.value;
+    if (!currentValue.trim()) {
+      setLocation("");
+      return;
+    }
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(async () => {
+      try {
+        const apiKey = import.meta.env.VITE_ADDRESS_TOKEN;
+        const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
+          currentValue.trim()
+        )}&limit=5&apiKey=${apiKey}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        setSuggestions(data.features);
+      } catch (error) {
+        console.error("Error fetching autocomplete data:", error);
+      }
+    }, 300);
+    setLocation(currentValue);
+  }, []);
+
+  const handleSuggestionClick = (suggestion) => {
+    setLocation(suggestion.properties.formatted);
+    setSuggestions([]);
   };
 
   // Set text direction to left-to-right for Hebrew or Arabic
@@ -186,8 +216,14 @@ const MeetupForm = () => {
                 type="text"
                 placeholder={t("location")}
                 value={location}
-                onChange={(e) => setLocation(e.target.value)}
+                onChange={handleLocationChange}
               />
+              {suggestions.length > 0 && (
+                <AutocompleteDropdown
+                  suggestions={suggestions}
+                  handleSuggestionClick={handleSuggestionClick}
+                />
+              )}
             </div>
             <div>
               <h3>{t("cost")}</h3>
