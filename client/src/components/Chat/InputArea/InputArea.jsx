@@ -43,7 +43,12 @@ const InputArea = ({
   }, [isSuccess, isLoading, isError]);
   return (
     <InputWrapper>
-      <InputAreaContainer>
+      <InputAreaContainer
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleOnClick();
+        }}
+      >
         <RecommendedButton
           onClick={() => {
             if (currentSuggestions.length > 0) {
