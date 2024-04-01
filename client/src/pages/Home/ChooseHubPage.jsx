@@ -51,21 +51,21 @@ export default function ChooseHubPage() {
             navigate("/work");
           }}
         >
-          {t("work")} - Work <BriefcaseIcon />{" "}
+          {t("work")} <BriefcaseIcon />{" "}
         </MainButton>
         <MainButton
           onClick={() => {
             navigate("/conversation?hub=hobbies");
           }}
         >
-          {t("hobbies")} - Hobbies <LaughEmoji />{" "}
+          {t("hobbies")} <LaughEmoji />{" "}
         </MainButton>
         <MainButton
           onClick={() => {
             navigate("/MeetupsHomePage");
           }}
         >
-          {t("meetup")} - Meetup <UsersIcon />{" "}
+          {t("meetup")} <UsersIcon />{" "}
         </MainButton>
       </StyledPage>
     </div>
