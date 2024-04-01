@@ -19,6 +19,7 @@ import {
 } from "../../../features/jobStore/jobAPI";
 import MyJobPostsComponent from "./MyJobPostsComponent";
 import { useTranslation } from "react-i18next";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 
 function MyJobPosts() {
   const { t } = useTranslation();
@@ -32,11 +33,11 @@ function MyJobPosts() {
   const { data, isLoading, isError, isSuccess } = useGetUserJobPostsQuery();
 
   if (!data) {
-    return <div>{t("loading")}</div>;
+    return <LoadingSpinner />;
   }
 
   if (isLoading) {
-    return <div>{t("loading")}</div>;
+    return <LoadingSpinner />;
   } else if (isError) {
     return <div>{t("error_fetching_job_details")}</div>;
   }

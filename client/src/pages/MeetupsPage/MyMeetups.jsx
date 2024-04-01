@@ -15,6 +15,7 @@ import {
   useGetMyMeetupsQuery,
 } from "../../features/meetupApi";
 import { useTranslation } from "react-i18next";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 function MyMeetups() {
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ function MyMeetups() {
   const navigation = useNavigate();
   console.log(data);
 
-  if (isLoading) return <div>{t("loading")}</div>;
+  if (isLoading) return <LoadingSpinner />;
 
   const handleNavigation = (meetupId) => {
     navigation(`/myMeetupPage/${meetupId}`);

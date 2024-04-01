@@ -17,6 +17,7 @@ import {
   useGetChatByIdQuery,
   useGetChatByUsersIdsQuery,
 } from "../../features/chatDataApi.js";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 
 const ENDPOINT = import.meta.env.VITE_SERVER_BASE_URL;
 
@@ -39,6 +40,7 @@ const Chat = () => {
   const [createChat] = useCreateChatMutation();
   const navigate = useNavigate();
   const location = useLocation();
+  if (isLoading) return <LoadingSpinner />;
   useEffect(() => {
     refetch();
   }, [location.pathname]);

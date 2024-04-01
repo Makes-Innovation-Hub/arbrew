@@ -26,6 +26,7 @@ import {
   useUpdateMeetupMutation,
 } from "../../features/meetupApi";
 import MeetupDetailsDisplay from "./MeetupDetailsPageStyle";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 function SpecificMeetup() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ function SpecificMeetup() {
   const [showModal, setShowModal] = useState(false);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   } else if (isError) {
     return <div>Error fetching meeting details</div>;
   }

@@ -12,6 +12,7 @@ import { DividerLine } from "../../styles/Meetup/MeetupStyledPage.jsx";
 import { useParams } from "react-router-dom";
 import { TimeIcon } from "../../styles/Meetup/MeetupStyledPage.jsx";
 import { useTranslation } from "react-i18next";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 
 const MyMeetupPage = () => {
   const { t } = useTranslation();
@@ -42,7 +43,7 @@ const MyMeetupPage = () => {
     }
   }, [meetupById]);
 
-  if (isLoading) return <div>{t("loading")}</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>{t("error_fetching_meetups")}</div>;
   if (!targetMeetup) return <div>{t("no_meetup_found")}</div>;
 

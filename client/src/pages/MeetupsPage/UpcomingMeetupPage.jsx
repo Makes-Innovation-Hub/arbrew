@@ -12,6 +12,7 @@ import {
 import { ArrowLeft } from "../../assets";
 import { useGetAllMeetupsQuery } from "../../features/meetupApi";
 import { useTranslation } from "react-i18next";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 function MyMeetups() {
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ function MyMeetups() {
   const { data, isError, isLoading } = useGetAllMeetupsQuery();
   const navigation = useNavigate();
 
-  if (isLoading) return <div>{t("loading")}</div>;
+  if (isLoading) return <LoadingSpinner />;
 
   if (isError) {
     return <div>{t("error_fetching_meetups")}</div>;

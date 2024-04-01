@@ -12,6 +12,7 @@ import {
   useDeleteMeetupMutation,
 } from "../../features/meetupApi";
 import { OtherPageButton } from "../jobs/myPostedJobspage/StyledMyJobPage.jsx";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 
 const MeetupDetailsPage = () => {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ const MeetupDetailsPage = () => {
   };
 
   if (isLoading) {
-    return <div>{t("loading")}</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -93,15 +94,6 @@ const MeetupDetailsPage = () => {
       console.error("Error fetching geocoding data:", error);
     }
   };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    console.error(error);
-    return <div>Error fetching meetup details</div>;
-  }
 
   return (
     <div>

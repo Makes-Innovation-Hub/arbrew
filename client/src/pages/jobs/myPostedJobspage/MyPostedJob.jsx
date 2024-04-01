@@ -25,6 +25,7 @@ import {
   useDeleteJobMutation,
 } from "../../../features/jobStore/jobAPI";
 import { useTranslation } from "react-i18next";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 
 function MyPostedJob() {
   const { t } = useTranslation();
@@ -33,7 +34,7 @@ function MyPostedJob() {
   const { data: job, isLoading, isError, isSuccess } = useGetJobByIdQuery(id);
   const [deleteJob] = useDeleteJobMutation();
   if (isLoading) {
-    return <div>{t("loading")}</div>;
+    return <LoadingSpinner />;
   } else if (isError) {
     return <div>{t("error_fetching_job_details")}</div>;
   }
