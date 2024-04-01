@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 export const ConversationDisplay = ({ chat }) => {
   return (
     <Link
-      to={`/chat-page/?sender=${chat?.sender._id}&receiver=${chat?.receiver._id}&hub=${chat?.chatHub}`}
+      to={`/chat-page/?sender=${chat?.sender?._id}&receiver=${chat?.receiver?._id}&hub=${chat?.chatHub}`}
       style={{ textDecoration: "none", color: "black" }}
     >
       <DisplayChatsStyle>
-        <ProfileChat profile={chat?.receiver.avatar} />
+        <ProfileChat profile={chat?.receiver?.avatar} />
         <ContentChat>
-          <p>{chat?.receiver.name}</p>
+          <p>{chat?.receiver?.name}</p>
           <p>{chat?.lastMessageContent}</p>
         </ContentChat>
       </DisplayChatsStyle>
