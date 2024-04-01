@@ -40,7 +40,7 @@ const Chat = () => {
   const [createChat] = useCreateChatMutation();
   const navigate = useNavigate();
   const location = useLocation();
-  if (isLoading) return <LoadingSpinner />;
+ 
   useEffect(() => {
     refetch();
   }, [location.pathname]);
@@ -108,7 +108,7 @@ const Chat = () => {
           img: receiver?.avatar || location?.state?.receiverImg,
         }}
       />
-      {isLoading && <h2>LOADING...</h2>}
+     {isLoading && <LoadingSpinner />}
       <ChatDisplayArea messages={messages} />
       <InputArea
         handleSendMsg={handleSendMsg}
