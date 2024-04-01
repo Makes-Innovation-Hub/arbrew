@@ -25,12 +25,10 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 function SearchColleaguesPage() {
   const loggedUser = useSelector((state) => state.userRegister);
-  const { data, isLoading, isError, isSuccess } = useGetWorkUsersQuery();
+  const { data, isLoading, isError, isSuccess, error } = useGetWorkUsersQuery();
   const navigate = useNavigate();
-  if (isLoading) {
-    return <LoadingSpinner />;
-  } else if (isError) {
-    return <div>Error fetching users details</div>;
+  if (isError) {
+    console.log("Error fetching users details", error);
   }
   const handleBack = () => {
     window.history.back();
@@ -47,54 +45,57 @@ function SearchColleaguesPage() {
           title={<SmallGlass />}
         />
       </StyledMargin>
-
-      <StyledMyJobPage height="710px">
-        <Center>
-          <StyledAppliersTitle>Search Colleagues</StyledAppliersTitle>
-        </Center>
-        <StyledMargin direction="vertical" margin="2rem" />
-        {isSuccess && (
-          <>
-            {data?.data.map((colleague) => (
-              <Container key={colleague._id}>
-                <FirstRow>
-                  <Link to={`/profiled?type=work&userId=${colleague._id}`}>
-                    {colleague && colleague.avatar ? (
-                      <StyledApplierImg src={colleague.avatar} alt="pic" />
-                    ) : (
-                      <div>No Avatar</div>
-                    )}
-                  </Link>
-                  <FlagContainer>
-                    <FlagImg
-                      src={flags[colleague?.userDetails?.nationality]?.image}
-                    />
-                  </FlagContainer>
-                  <StyledName>{colleague?.name?.split(" ")[0]}</StyledName>
-                </FirstRow>
-                <SecondRow>
-                  <Occupation>
-                    <StyledOccupationText>
-                      {colleague?.userDetails?.occupation}
-                    </StyledOccupationText>
-                  </Occupation>
-                </SecondRow>
-                <StyledIconDiv>
-                  <Link
-                    to={`/chat-page/?sender=${loggedUser.id}&hub=work&receiver=${colleague?._id}`}
-                    state={{
-                      receiverImg: colleague?.avatar,
-                      receiverName: colleague?.name,
-                    }}
-                  >
-                    <StyledIconImg src="/messageBox.png" />
-                  </Link>
-                </StyledIconDiv>
-              </Container>
-            ))}
-          </>
-        )}
-      </StyledMyJobPage>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <StyledMyJobPage height="710px">
+          <Center>
+            <StyledAppliersTitle>Search Colleagues</StyledAppliersTitle>
+          </Center>
+          <StyledMargin direction="vertical" margin="2rem" />
+          {isSuccess && (
+            <>
+              {data?.data.map((colleague) => (
+                <Container key={colleague._id}>
+                  <FirstRow>
+                    <Link to={`/profiled?type=work&userId=${colleague._id}`}>
+                      {colleague && colleague.avatar ? (
+                        <StyledApplierImg src={colleague.avatar} alt="pic" />
+                      ) : (
+                        <div>No Avatar</div>
+                      )}
+                    </Link>
+                    <FlagContainer>
+                      <FlagImg
+                        src={flags[colleague?.userDetails?.nationality]?.image}
+                      />
+                    </FlagContainer>
+                    <StyledName>{colleague?.name?.split(" ")[0]}</StyledName>
+                  </FirstRow>
+                  <SecondRow>
+                    <Occupation>
+                      <StyledOccupationText>
+                        {colleague?.userDetails?.occupation}
+                      </StyledOccupationText>
+                    </Occupation>
+                  </SecondRow>
+                  <StyledIconDiv>
+                    <Link
+                      to={`/chat-page/?sender=${loggedUser.id}&hub=work&receiver=${colleague?._id}`}
+                      state={{
+                        receiverImg: colleague?.avatar,
+                        receiverName: colleague?.name,
+                      }}
+                    >
+                      <StyledIconImg src="/messageBox.png" />
+                    </Link>
+                  </StyledIconDiv>
+                </Container>
+              ))}
+            </>
+          )}
+        </StyledMyJobPage>
+      )}
     </div>
   );
 }

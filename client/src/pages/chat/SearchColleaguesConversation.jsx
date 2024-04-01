@@ -31,7 +31,6 @@ function SearchColleaguesConversation() {
 
   const { data: chats, error, isLoading } = useGetUserChatsListQuery(hub);
   console.log(chats);
-  if (isLoading) return <LoadingSpinner />;
   if (error) {
     console.log(error);
     return <div>Error occurred while fetching chats.</div>;
@@ -57,43 +56,48 @@ function SearchColleaguesConversation() {
           title={<SmallGlass />}
         />
       </StyledMargin>
-      <StyledPage>
-        {chats && chats.length !== 0 ? (
-          <ConversationPageStyle>
-            <div>Conversation</div>
-            <ChatsDisplay>
-              {chats.map((chat, i) => {
-                return <ConversationDisplay key={i} chat={chat} />;
-              })}
-            </ChatsDisplay>
-            <BlockDiv />
-            <ButtonForChats
-              onClick={() => {
-                navigate("/Search-colleagues");
-              }}
-            >
-              Search for colleagues
-            </ButtonForChats>
-          </ConversationPageStyle>
-        ) : (
-          <ConversationPageStyle>
-            <NoConversationStyleTitle>
-              No Conversations
-            </NoConversationStyleTitle>
-            <ContentConversationPage>
-              Add some colleagues and start chatting with them, Your
-              conversations will show up here.
-            </ContentConversationPage>
-            <ButtonForChats
-              onClick={() => {
-                navigate("/Search-colleagues");
-              }}
-            >
-              Search for colleagues
-            </ButtonForChats>
-          </ConversationPageStyle>
-        )}
-      </StyledPage>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <StyledPage>
+          {chats && chats.length !== 0 ? (
+            <ConversationPageStyle>
+              <div>Conversation</div>
+
+              <ChatsDisplay>
+                {chats.map((chat, i) => {
+                  return <ConversationDisplay key={i} chat={chat} />;
+                })}
+              </ChatsDisplay>
+              <BlockDiv />
+              <ButtonForChats
+                onClick={() => {
+                  navigate("/Search-colleagues");
+                }}
+              >
+                Search for colleagues
+              </ButtonForChats>
+            </ConversationPageStyle>
+          ) : (
+            <ConversationPageStyle>
+              <NoConversationStyleTitle>
+                No Conversations
+              </NoConversationStyleTitle>
+              <ContentConversationPage>
+                Add some colleagues and start chatting with them, Your
+                conversations will show up here.
+              </ContentConversationPage>
+              <ButtonForChats
+                onClick={() => {
+                  navigate("/Search-colleagues");
+                }}
+              >
+                Search for colleagues
+              </ButtonForChats>
+            </ConversationPageStyle>
+          )}
+        </StyledPage>
+      )}
     </div>
   );
 }

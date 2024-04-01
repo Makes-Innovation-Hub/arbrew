@@ -34,8 +34,6 @@ const SearchFriends = () => {
     });
   }, [selectedInterests]);
 
-  if (isLoading) return <LoadingSpinner />;
-
   return (
     <>
       <Header
@@ -46,44 +44,48 @@ const SearchFriends = () => {
         }
         midIcon={<SmallGlass />}
       />
-      <StyledPage>
-        <StyledMargin direction="vertical" margin="1.75rem" />
-        <StyledPageTitle>Search friends</StyledPageTitle>
-        <StyledMargin direction="vertical" margin="0.75rem" />
-        <StyledPageTitle>by common Interests</StyledPageTitle>
-        <StyledMargin direction="vertical" margin="2rem" />
-        <StyledHobbiesContainer>
-          {loggedUser.userDetails.interests.map((interest) => (
-            <StyledHobby
-              border={
-                selectedInterests.includes(interest)
-                  ? "solid 1px #50924E"
-                  : null
-              }
-              key={interest}
-              onClick={() => {
-                if (!selectedInterests.includes(interest)) {
-                  setSelectedInterests([...selectedInterests, interest]);
-                } else {
-                  setSelectedInterests(
-                    selectedInterests.filter((item) => item !== interest)
-                  );
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <StyledPage>
+          <StyledMargin direction="vertical" margin="1.75rem" />
+          <StyledPageTitle>Search friends</StyledPageTitle>
+          <StyledMargin direction="vertical" margin="0.75rem" />
+          <StyledPageTitle>by common Interests</StyledPageTitle>
+          <StyledMargin direction="vertical" margin="2rem" />
+          <StyledHobbiesContainer>
+            {loggedUser.userDetails.interests.map((interest) => (
+              <StyledHobby
+                border={
+                  selectedInterests.includes(interest)
+                    ? "solid 1px #50924E"
+                    : null
                 }
-              }}
-            >
-              {interest}
-            </StyledHobby>
-          ))}
-        </StyledHobbiesContainer>
-        <StyledMargin direction="vertical" margin="4rem" />
-        {isSuccess && (
-          <FriendsList
-            friendsArr={data}
-            originLang={originLang}
-            loggedUser={loggedUser}
-          />
-        )}
-      </StyledPage>
+                key={interest}
+                onClick={() => {
+                  if (!selectedInterests.includes(interest)) {
+                    setSelectedInterests([...selectedInterests, interest]);
+                  } else {
+                    setSelectedInterests(
+                      selectedInterests.filter((item) => item !== interest)
+                    );
+                  }
+                }}
+              >
+                {interest}
+              </StyledHobby>
+            ))}
+          </StyledHobbiesContainer>
+          <StyledMargin direction="vertical" margin="4rem" />
+          {isSuccess && (
+            <FriendsList
+              friendsArr={data}
+              originLang={originLang}
+              loggedUser={loggedUser}
+            />
+          )}
+        </StyledPage>
+      )}
     </>
   );
 };

@@ -17,13 +17,11 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 function MyMeetups() {
   const { t } = useTranslation();
   const [isSideBar, setIsSideBar] = useState(false);
-  const { data, isError, isLoading } = useGetAllMeetupsQuery();
+  const { data, isError, isLoading, error } = useGetAllMeetupsQuery();
   const navigation = useNavigate();
 
-  if (isLoading) return <LoadingSpinner />;
-
   if (isError) {
-    return <div>{t("error_fetching_meetups")}</div>;
+    console.log("error_fetching_meetups", error);
   }
 
   const handleNavigation = (meetupId) => {
@@ -47,30 +45,34 @@ function MyMeetups() {
           title={t("meetups")}
         />
       </StyledMargin>
-      <UpcomingStyledPage>
-        <CenteredText>{t("upcoming_meetups")}</CenteredText>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <UpcomingStyledPage>
+          <CenteredText>{t("upcoming_meetups")}</CenteredText>
 
-        {Array.isArray(data.data) && data.data.length > 0 ? (
-          <MeetupListStyle>
-            {data?.data?.map((meetup, i) => (
-              <UpcomingDisplay
-                meetupId={meetup.id}
-                key={meetup.id}
-                title={meetup.title}
-                date={meetup.date}
-                time={meetup.time}
-                location={meetup.location}
-                attendeesCount={meetup.attendees.length}
-                ownerId={meetup.owner}
-              />
-            ))}
-          </MeetupListStyle>
-        ) : (
-          <CenteredText>
-            <div>{t("no_upcoming_meetups")}</div>
-          </CenteredText>
-        )}
-      </UpcomingStyledPage>
+          {Array.isArray(data.data) && data.data.length > 0 ? (
+            <MeetupListStyle>
+              {data?.data?.map((meetup, i) => (
+                <UpcomingDisplay
+                  meetupId={meetup.id}
+                  key={meetup.id}
+                  title={meetup.title}
+                  date={meetup.date}
+                  time={meetup.time}
+                  location={meetup.location}
+                  attendeesCount={meetup.attendees.length}
+                  ownerId={meetup.owner}
+                />
+              ))}
+            </MeetupListStyle>
+          ) : (
+            <CenteredText>
+              <div>{t("no_upcoming_meetups")}</div>
+            </CenteredText>
+          )}
+        </UpcomingStyledPage>
+      )}
     </div>
   );
 }

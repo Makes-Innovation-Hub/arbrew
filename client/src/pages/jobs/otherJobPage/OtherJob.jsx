@@ -108,9 +108,7 @@ function OtherJob() {
     }
   };
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  } else if (isError) {
+  if (isError) {
     return <div>{t("error_fetching_job_details")}</div>;
   }
   const handleAppliers = () => {
@@ -132,7 +130,9 @@ function OtherJob() {
           title={isOwner ? t("my_posted_job_page") : "Job Page"}
         />
       </StyledMargin>
-      {isSuccess && (
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
         <StyledMyJobPage>
           <Center>
             <Title>{job?.job?.title}</Title>

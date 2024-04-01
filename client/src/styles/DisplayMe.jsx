@@ -7,6 +7,6 @@ export const DisplayMe = styled.div`
   gap: 0.6rem;
   height: 6rem;
   background: #ecf0f0;
-  margin: 2rem -2rem;
-  width: 117%;
+  margin: 4rem -2rem 2rem -2rem;
+  /* width: 100%; */
 `;

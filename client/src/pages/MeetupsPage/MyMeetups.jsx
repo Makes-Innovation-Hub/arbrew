@@ -8,6 +8,8 @@ import {
   MeetupListStyle,
   UpcomingDisplay,
   CenteredText,
+  MainButton,
+  StyledPage,
 } from "../../styles";
 import { SmallGlass, ArrowLeft } from "../../assets";
 import {
@@ -18,13 +20,12 @@ import { useTranslation } from "react-i18next";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 function MyMeetups() {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [isSideBar, setIsSideBar] = useState(false);
   const { data, error, isLoading } = useGetMyMeetupsQuery();
   const navigation = useNavigate();
   console.log(data);
-
-  if (isLoading) return <LoadingSpinner />;
 
   const handleNavigation = (meetupId) => {
     navigation(`/myMeetupPage/${meetupId}`);
@@ -47,28 +48,37 @@ function MyMeetups() {
           title={t("meetups")}
         />
       </StyledMargin>
-      <UpcomingStyledPage>
-        <CenteredText>{t("my_meetups_posts")}</CenteredText>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <UpcomingStyledPage>
+          <CenteredText>{t("my_meetups_posts")}</CenteredText>
 
-        {Array.isArray(data?.data) && data?.data.length !== 0 ? (
-          <MeetupListStyle>
-            {data?.data?.map((meetup, i) => (
-              <UpcomingDisplay
-                meetupId={meetup.id}
-                key={meetup.id}
-                title={meetup.title}
-                date={meetup.date}
-                time={meetup.time}
-                location={meetup.location}
-                attendeesCount={meetup.attendees.length}
-                ownerId={meetup.owner}
-              />
-            ))}
-          </MeetupListStyle>
-        ) : (
-          <CenteredText>{t("no_meetups_posted")}</CenteredText>
-        )}
-      </UpcomingStyledPage>
+          {Array.isArray(data?.data) && data?.data.length !== 0 ? (
+            <MeetupListStyle>
+              {data?.data?.map((meetup, i) => (
+                <UpcomingDisplay
+                  meetupId={meetup.id}
+                  key={meetup.id}
+                  title={meetup.title}
+                  date={meetup.date}
+                  time={meetup.time}
+                  location={meetup.location}
+                  attendeesCount={meetup.attendees.length}
+                  ownerId={meetup.owner}
+                />
+              ))}
+            </MeetupListStyle>
+          ) : (
+            <StyledPage>
+              <CenteredText>{t("no_meetups_posted")}</CenteredText>
+              <MainButton onClick={() => navigate("/MeetupForm")}>
+                Post A Meetup
+              </MainButton>
+            </StyledPage>
+          )}
+        </UpcomingStyledPage>
+      )}
     </div>
   );
 }

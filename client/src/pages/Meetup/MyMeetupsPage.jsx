@@ -43,8 +43,7 @@ const MyMeetupPage = () => {
     }
   }, [meetupById]);
 
-  if (isLoading) return <LoadingSpinner />;
-  if (isError) return <div>{t("error_fetching_meetups")}</div>;
+  if (isError) console.log("error_fetching_meetups");
   if (!targetMeetup) return <div>{t("no_meetup_found")}</div>;
 
   return (
@@ -59,48 +58,52 @@ const MyMeetupPage = () => {
           title={t("meetup_page_title")}
         />
       </StyledMargin>
-      <StyledPage>
-        <MeetupFormWrapper>
-          <form>
-            <div>
-              <h1>{targetMeetup.title}</h1>
-            </div>
-            <br />
-            <br />
-            <div>
-              <p>{targetMeetup.date}</p>
-            </div>
-            <DividerLine />
-            <div>
-              <a
-                href={`https://maps.google.com/?q=${targetMeetup.location}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {targetMeetup.location}
-              </a>
-            </div>
-            <DividerLine></DividerLine>
-            <div>
-              <p>{targetMeetup.price}</p>
-            </div>
-            <DividerLine></DividerLine>
-            <div>
-              <h3>{t("about")}</h3>
-              {targetMeetup.description}
-            </div>
-            <DividerLine></DividerLine>
-            <div>
-              <h3>{t("attendees")}</h3>
-              {randomAvatars.map((avatar, index) => (
-                <Circle key={index}>
-                  <img src={avatar} alt={`Avatar ${index + 1}`} />
-                </Circle>
-              ))}
-            </div>
-          </form>
-        </MeetupFormWrapper>
-      </StyledPage>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <StyledPage>
+          <MeetupFormWrapper>
+            <form>
+              <div>
+                <h1>{targetMeetup.title}</h1>
+              </div>
+              <br />
+              <br />
+              <div>
+                <p>{targetMeetup.date}</p>
+              </div>
+              <DividerLine />
+              <div>
+                <a
+                  href={`https://maps.google.com/?q=${targetMeetup.location}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {targetMeetup.location}
+                </a>
+              </div>
+              <DividerLine></DividerLine>
+              <div>
+                <p>{targetMeetup.price}</p>
+              </div>
+              <DividerLine></DividerLine>
+              <div>
+                <h3>{t("about")}</h3>
+                {targetMeetup.description}
+              </div>
+              <DividerLine></DividerLine>
+              <div>
+                <h3>{t("attendees")}</h3>
+                {randomAvatars.map((avatar, index) => (
+                  <Circle key={index}>
+                    <img src={avatar} alt={`Avatar ${index + 1}`} />
+                  </Circle>
+                ))}
+              </div>
+            </form>
+          </MeetupFormWrapper>
+        </StyledPage>
+      )}
     </div>
   );
 };
