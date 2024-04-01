@@ -32,7 +32,7 @@ export default function WorkPage() {
       </StyledMargin>
       <StyledPage>
         <PageTitle24>{t("work_page")}</PageTitle24>
-        <MainButton onClick={() => navigate("/conversation?hub=work")}>
+        <MainButton onClick={() => navigate("/work-conversation?hub=work")}>
           {t("chat")}
         </MainButton>
         <MainButton onClick={() => navigate("/job-board")}>
