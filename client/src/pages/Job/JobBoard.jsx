@@ -8,6 +8,7 @@ import { JobList, JobItem } from "./StyledJobBoard";
 import { useTranslation } from "react-i18next";
 import { Center } from "../jobs/myPostedJobspage/StyledMyJobPage";
 import { Title } from "../../styles/UpcomingStyledPage";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 export default function JobBoardPage() {
   const { t } = useTranslation();
@@ -17,11 +18,11 @@ export default function JobBoardPage() {
   const { data, isLoading, isError, isSuccess } = useGetAllJobsQuery();
 
   if (!data) {
-    return <div>{t("loading")}...</div>;
+    return <LoadingSpinner />;
   }
   const jobs = Array.isArray(data.data) ? data.data : [];
 
-  if (isLoading) return <div>{t("loading")}...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>{t("error_fetching_jobs")}</div>;
   const goToJobDetails = (jobId) => {
     navigate(`/otherjob/${jobId}`);

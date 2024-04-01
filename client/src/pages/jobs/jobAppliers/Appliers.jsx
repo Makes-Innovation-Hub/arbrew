@@ -20,6 +20,7 @@ import {
 } from "./StylesApplierPage";
 import { useGetJobByIdQuery } from "../../../features/jobStore/jobAPI";
 import flags from "../../../assets/countriesAndFlags/by-code.json";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 
 function Appliers() {
   const { id } = useParams();
@@ -29,7 +30,7 @@ function Appliers() {
   const location = useLocation();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   } else if (isError) {
     return <div>Error fetching job details</div>;
   }

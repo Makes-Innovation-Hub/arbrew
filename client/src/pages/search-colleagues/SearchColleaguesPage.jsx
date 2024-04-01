@@ -21,13 +21,14 @@ import flags from "../../assets/countriesAndFlags/by-code.json";
 import { useGetWorkUsersQuery } from "../../features/userDataApi";
 import { Occupation, StyledOccupationText } from "./StyledSearchColleagues";
 import { useSelector } from "react-redux";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 function SearchColleaguesPage() {
   const loggedUser = useSelector((state) => state.userRegister);
   const { data, isLoading, isError, isSuccess } = useGetWorkUsersQuery();
   const navigate = useNavigate();
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   } else if (isError) {
     return <div>Error fetching users details</div>;
   }

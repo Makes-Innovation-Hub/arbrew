@@ -36,6 +36,7 @@ import { PiNotePencilBold } from "react-icons/pi";
 import { TitleContainer } from "../../../styles/MeetupDetailsStyle/MeetupDetailsStyle";
 import DropboxChooser from "react-dropbox-chooser";
 import { useUpdateUserMutation } from "../../../features/userDataApi";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import.meta.env.VITE_SERVER_BASE_URL;
 const APP_KEY = import.meta.env.VITE_DROPBOX_APP_KEY;
 function OtherJob() {
@@ -108,7 +109,7 @@ function OtherJob() {
   };
 
   if (isLoading) {
-    return <div>{t("loading")}</div>;
+    return <LoadingSpinner />;
   } else if (isError) {
     return <div>{t("error_fetching_job_details")}</div>;
   }

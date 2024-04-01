@@ -15,13 +15,13 @@ export const StyledMyJobPage = styled.div`
   z-index: 2;
   width: 100%;
 
-  @media (min-width: 1000px) {
+  /* @media (min-width: 1000px) {
     padding: 3rem;
     width: 100vw;
     border-radius: 4rem 4rem 0 0;
     top: 9rem;
     align-items: center;
-  }
+  } */
 `;
 
 export const Title = styled.h2`

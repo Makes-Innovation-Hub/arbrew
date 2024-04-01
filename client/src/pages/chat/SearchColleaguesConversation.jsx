@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addAllDetailsConnectedUser } from "../../features/userRegister/userRegisterSlice";
 import { NoConversationStyleTitle } from "../../styles/Chat/NoConversationStyle";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 function SearchColleaguesConversation() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function SearchColleaguesConversation() {
 
   const { data: chats, error, isLoading } = useGetUserChatsListQuery(hub);
   console.log(chats);
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (error) {
     console.log(error);
     return <div>Error occurred while fetching chats.</div>;

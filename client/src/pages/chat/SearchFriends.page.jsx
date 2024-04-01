@@ -14,6 +14,7 @@ import {
 import { ArrowLeft, SmallGlass } from "../../assets/index.jsx";
 import { useSelector } from "react-redux";
 import { UserContext } from "../../contexts/loggedUser.context.jsx";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 const SearchFriends = () => {
   const { userData: contextUser } = useContext(UserContext);
   const loggedUser = useSelector((state) => state.userRegister);
@@ -33,7 +34,7 @@ const SearchFriends = () => {
     });
   }, [selectedInterests]);
 
-  if (isLoading) return <h1>is Loading...</h1>;
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <>
