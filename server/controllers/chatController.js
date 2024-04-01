@@ -99,8 +99,9 @@ export const GetChatByUsersIds = async (req, res, next) => {
       hub,
     }).populate("users");
     if (!foundChat) {
-      res.status(STATUS_CODES.NOT_FOUND);
-      throw new Error("No Chat Yet");
+      res.send("Chat not found");
+      return;
+      // throw new Error("No Chat Yet");
     }
 
     const receiverUser = foundChat.users.find(

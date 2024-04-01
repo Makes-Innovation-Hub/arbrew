@@ -34,8 +34,8 @@ const Chat = () => {
   const location = useLocation();
 
   const handleSendMsg = async (text) => {
-    if (isError) {
-      console.log(error);
+    if (error?.data === "Chat not found") {
+      // console.log(error);
       const res = await createChat({
         user1Id: loggedUser.id,
         user2Id: searchParams.get("receiver"),
@@ -61,6 +61,11 @@ const Chat = () => {
     setSuggestions([...suggestionsUpdated]);
     setMessages((prev) => [...prev, suggestionObj]);
   };
+  useEffect(() => {
+    if (isError) {
+      console.log(error?.data);
+    }
+  }, [isError, error]);
   useEffect(() => {
     refetch();
   }, [location.pathname]);
