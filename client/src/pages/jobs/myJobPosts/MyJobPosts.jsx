@@ -36,6 +36,7 @@ function MyJobPosts() {
   }
 
   const { data, isLoading, isError, isSuccess } = useGetUserJobPostsQuery();
+  console.log(data);
 
   if (isError) {
     return <div>{t("error_fetching_job_details")}</div>;
@@ -65,7 +66,7 @@ function MyJobPosts() {
             <StyledMyPostJobTitle>{t("my_job_posts")}</StyledMyPostJobTitle>
           </Center>
           <StyledMargin direction="vertical" margin="1.8rem" />
-          {data?.length > 0 ? (
+          {data?.jobPosts.length > 0 ? (
             data?.jobPosts.map((job) => (
               <MyJobPostsComponent
                 key={job.id}

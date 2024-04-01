@@ -10,7 +10,7 @@ export const MainButton = styled.button`
   line-height: 22px;
   text-align: center;
   width: 80%;
-  margin: 8px;
+  margin: 8px 0;
   padding: 16px 8px 16px 8px;
   border-radius: 6px;
   display: flex;

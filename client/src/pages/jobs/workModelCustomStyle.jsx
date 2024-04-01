@@ -67,7 +67,7 @@ const workModelCustomStyle = {
     ...provided,
     width: "21rem",
     // maxHeight: "20rem",
-    height: "21rem",
+    // height: "21rem",
     overflowY: "scroll",
     scrollbarWidth: "none",
     margin: "1rem 0rem 1rem 0",

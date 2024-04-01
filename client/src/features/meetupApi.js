@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 
 const getToken = () => {
   const storedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
@@ -34,6 +34,7 @@ export const meetupApi = createApi({
       invalidatesTags: ["Meetup"],
       transformResponse: (response) => {
         console.log("response from rtk", response);
+        return response;
       },
       transformErrorResponse: (response) => {
         console.log("response from rtk", response);
@@ -55,17 +56,10 @@ export const meetupApi = createApi({
       }),
       invalidatesTags: ["Meetup"],
     }),
-
-    getMyMeetups: builder.query({
-      query: () => "/meetup/my-meetups",
-      providesTags: ["Meetup"],
-    }),
-
     getMeetupById: builder.query({
       query: (meetupId) => `/meetup/${meetupId}`,
       providesTags: ["Meetup"],
     }),
-
     attendMeetup: builder.mutation({
       query: ({ meetupId, isAttending }) => ({
         url: `/meetup/${meetupId}/attend`,

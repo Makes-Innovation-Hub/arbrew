@@ -7,7 +7,7 @@ import {
   useUpdateMeetupMutation,
 } from "../../features/meetupApi";
 import AutocompleteDropdown from "./AutocompleteDropdown/AutocompleteDropdown"; // AutocompleteDropdown component
-import { StyledMargin, StyledPage } from "../../styles";
+import { MainButton, StyledMargin, StyledPage } from "../../styles";
 
 import {
   MeetupFormWrapper,
@@ -39,7 +39,9 @@ const MeetupForm = () => {
 
   const [createMeetup, { isLoading, isError }] = useCreateMeetupMutation();
   const [updateMeetupMutation] = useUpdateMeetupMutation();
-  const { data, isSuccess } = useGetMeetupByIdQuery(meetupId);
+  const { data, isSuccess } = useGetMeetupByIdQuery(meetupId, {
+    skip: !meetupId,
+  });
   const { t, i18n } = useTranslation();
 
   const formatDate = (dateString) => {
@@ -81,7 +83,7 @@ const MeetupForm = () => {
     };
     console.log("Meetup Data: ffffffff", meetupData);
     try {
-      const response = await createMeetup(meetupData).unwrap();
+      const response = await createMeetup(meetupData);
       console.log("Meetup created successfully:", response);
       navigate("/My-meetups-page");
     } catch (error) {
@@ -218,7 +220,7 @@ const MeetupForm = () => {
                 value={location}
                 onChange={handleLocationChange}
               />
-              {suggestions.length > 0 && (
+              {suggestions?.length > 0 && (
                 <AutocompleteDropdown
                   suggestions={suggestions}
                   handleSuggestionClick={handleSuggestionClick}
@@ -244,9 +246,16 @@ const MeetupForm = () => {
               />
             </div>
             {isMeetingId ? (
-              <UpdateButton onClick={handleUpdateMeetup}>Update</UpdateButton>
+              <MainButton
+                style={{ width: "100%" }}
+                onClick={handleUpdateMeetup}
+              >
+                Update
+              </MainButton>
             ) : (
-              <MeetupButton type="submit">{t("post_meetup")}</MeetupButton>
+              <MainButton style={{ width: "100%" }} type="submit">
+                {t("post_meetup")}
+              </MainButton>
             )}
           </form>
         </MeetupFormWrapper>
