@@ -138,6 +138,7 @@ export default function SideBar({ openSideBar }) {
           )}
           <LiSideBar>
             <StyledHiddenButton
+              style={{ color: "rgb(155,70,70)", fontWeight: "bold" }}
               onClick={() => {
                 dispatch(cleanUser());
                 sessionStorage.removeItem("loggedUser");

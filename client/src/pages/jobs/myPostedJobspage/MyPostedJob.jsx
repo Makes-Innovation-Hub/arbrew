@@ -33,10 +33,8 @@ function MyPostedJob() {
   const { id } = useParams();
   const { data: job, isLoading, isError, isSuccess } = useGetJobByIdQuery(id);
   const [deleteJob] = useDeleteJobMutation();
-  if (isLoading) {
-    return <LoadingSpinner />;
-  } else if (isError) {
-    return <div>{t("error_fetching_job_details")}</div>;
+  if (isError) {
+    console.log("error_fetching_job_details");
   }
 
   const handleAppliers = () => {
@@ -71,7 +69,9 @@ function MyPostedJob() {
           title={t("my_posted_job_page")}
         />
       </StyledMargin>
-      {isSuccess && (
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
         <StyledMyJobPage>
           <Center>
             <Title>{job?.job.title}</Title>

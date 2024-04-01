@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useSelector } from "react-redux";
 import { ChatLayout } from "../../styles/Chat/ChatLayout.jsx";
@@ -14,7 +9,6 @@ import ChatDisplayArea from "../../components/Chat/ChatDisplayArea/ChatDisplayAr
 import Header from "../../components/Chat/Header/Header.jsx";
 import {
   useCreateChatMutation,
-  useGetChatByIdQuery,
   useGetChatByUsersIdsQuery,
 } from "../../features/chatDataApi.js";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
@@ -25,7 +19,6 @@ let socket;
 socket = io(ENDPOINT);
 const Chat = () => {
   const [searchParams] = useSearchParams();
-  const params = useParams();
   const [chatId, setChatId] = useState("");
   const [messages, setMessages] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
@@ -38,19 +31,7 @@ const Chat = () => {
       hub: searchParams.get("hub"),
     });
   const [createChat] = useCreateChatMutation();
-  const navigate = useNavigate();
   const location = useLocation();
- 
-  useEffect(() => {
-    refetch();
-  }, [location.pathname]);
-  useEffect(() => {
-    if (data && isSuccess && !isLoading) {
-      setMessages((prev) => [...data.chat.messages]);
-      setReceiver(data.receiverUser);
-      setChatId(data.chat.id);
-    }
-  }, [data, isSuccess, isLoading]);
 
   const handleSendMsg = async (text) => {
     if (isError) {
@@ -80,7 +61,16 @@ const Chat = () => {
     setSuggestions([...suggestionsUpdated]);
     setMessages((prev) => [...prev, suggestionObj]);
   };
-
+  useEffect(() => {
+    refetch();
+  }, [location.pathname]);
+  useEffect(() => {
+    if (data && isSuccess && !isLoading) {
+      setMessages((prev) => [...data.chat.messages]);
+      setReceiver(data.receiverUser);
+      setChatId(data.chat.id);
+    }
+  }, [data, isSuccess, isLoading]);
   useEffect(() => {
     if (!chatId) return;
 
@@ -89,15 +79,7 @@ const Chat = () => {
     };
     socket.emit("room_setup", chatData);
     socket.on("send_message", (newMsg) => {
-      // console.log("New Message", newMsg);
       setMessages((prev) => [...prev, newMsg]);
-      // setMessages((prev) => {
-      //   // Check if the message already exists to avoid duplicates
-      //   const messageExists = prev.some(
-      //     (message) => message._id === newMsg._id
-      //   );
-      //   return messageExists ? prev : [...prev, newMsg];
-      // });
     });
   }, [chatId, loggedUser, receiver]);
   return (
@@ -108,15 +90,20 @@ const Chat = () => {
           img: receiver?.avatar || location?.state?.receiverImg,
         }}
       />
-     {isLoading && <LoadingSpinner />}
-      <ChatDisplayArea messages={messages} />
-      <InputArea
-        handleSendMsg={handleSendMsg}
-        loggedUserDetails={loggedUser?.userDetails}
-        receiverUserDetails={receiver?.userDetails}
-        currentSuggestions={suggestions}
-        setSuggestions={addSuggestionToMsgs}
-      />
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <ChatDisplayArea messages={messages} />
+          <InputArea
+            handleSendMsg={handleSendMsg}
+            loggedUserDetails={loggedUser?.userDetails}
+            receiverUserDetails={receiver?.userDetails}
+            currentSuggestions={suggestions}
+            setSuggestions={addSuggestionToMsgs}
+          />
+        </>
+      )}
     </ChatLayout>
   );
 };

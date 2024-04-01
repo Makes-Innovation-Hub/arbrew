@@ -31,13 +31,12 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 function SpecificMeetup() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data, isLoading, isError, isSuccess } = useGetMeetupByIdQuery(id);
+  const { data, isLoading, isError, isSuccess, error } =
+    useGetMeetupByIdQuery(id);
   const [showModal, setShowModal] = useState(false);
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  } else if (isError) {
-    return <div>Error fetching meeting details</div>;
+  if (isError) {
+    console.log("Error fetching meeting details", error);
   }
 
   const { title, date, time, location, description, price, attendees } =
@@ -77,79 +76,85 @@ function SpecificMeetup() {
           title={"Meetup Page"}
         />
       </StyledMargin>
-      <UpcomingStyledPage>
-        {data && data.data && (
-          <MeetupDetailsDisplay
-            key={data.data._id}
-            title={title}
-            date={date}
-            time={time}
-            location={location}
-            price={price}
-            description={description}
-            attendees={attendees}
-            meetupId={id}
-            isOwner={true}
-          />
-        )}
-      </UpcomingStyledPage>
-      <StyledMyJobPage>
-        <MyMeetupTitle>{title}</MyMeetupTitle>
-
-        <StyledMargin direction="vertical" margin="4rem" />
-
-        <StyledRow>
-          <IoCalendarNumberOutline />
-          <MyMeetupText>
-            {formatDate(date)}, {time}
-          </MyMeetupText>
-        </StyledRow>
-
-        <StyledMargin direction="vertical" margin="1.8rem" />
-
-        <StyledRow>
-          <CiLocationOn size={18} />
-          <MyMeetupText>{location}</MyMeetupText>
-        </StyledRow>
-
-        <StyledMargin direction="vertical" margin="1.8rem" />
-
-        <StyledRow>
-          <RiPriceTag2Line />
-          <MyMeetupText>{price}</MyMeetupText>
-        </StyledRow>
-
-        <StyledMargin direction="vertical" margin="4rem" />
-        <MyMeetupH1>About</MyMeetupH1>
-
-        <MyMeetupDescriptionSection>
-          {description}
-          <StyledMargin direction="vertical" margin="1.8rem" />
-        </MyMeetupDescriptionSection>
-
-        <StyledMargin direction="vertical" margin="4rem" />
-        <MyMeetupH1>Attendees</MyMeetupH1>
-
-        <StyledMargin direction="vertical" margin="1.8rem" />
-        {attendees.length > 0 ? (
-          <AttendeesSection>
-            {attendees.map((attendee, index) => (
-              <MyMeetupImage
-                key={index}
-                src={attendee.avatar}
-                alt={attendee.name}
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <UpcomingStyledPage>
+            {data && data.data && (
+              <MeetupDetailsDisplay
+                key={data.data._id}
+                title={title}
+                date={date}
+                time={time}
+                location={location}
+                price={price}
+                description={description}
+                attendees={attendees}
+                meetupId={id}
+                isOwner={true}
               />
-            ))}
-          </AttendeesSection>
-        ) : (
-          <div>No attendees yet</div>
-        )}
+            )}
+          </UpcomingStyledPage>
+          <StyledMyJobPage>
+            <MyMeetupTitle>{title}</MyMeetupTitle>
 
-        <StyledMargin direction="vertical" margin="2rem" />
-        <button onClick={handleDelete} disabled={isDeleting}>
-          {isDeleting ? "Deleting..." : "Delete Meetup"}
-        </button>
-      </StyledMyJobPage>
+            <StyledMargin direction="vertical" margin="4rem" />
+
+            <StyledRow>
+              <IoCalendarNumberOutline />
+              <MyMeetupText>
+                {formatDate(date)}, {time}
+              </MyMeetupText>
+            </StyledRow>
+
+            <StyledMargin direction="vertical" margin="1.8rem" />
+
+            <StyledRow>
+              <CiLocationOn size={18} />
+              <MyMeetupText>{location}</MyMeetupText>
+            </StyledRow>
+
+            <StyledMargin direction="vertical" margin="1.8rem" />
+
+            <StyledRow>
+              <RiPriceTag2Line />
+              <MyMeetupText>{price}</MyMeetupText>
+            </StyledRow>
+
+            <StyledMargin direction="vertical" margin="4rem" />
+            <MyMeetupH1>About</MyMeetupH1>
+
+            <MyMeetupDescriptionSection>
+              {description}
+              <StyledMargin direction="vertical" margin="1.8rem" />
+            </MyMeetupDescriptionSection>
+
+            <StyledMargin direction="vertical" margin="4rem" />
+            <MyMeetupH1>Attendees</MyMeetupH1>
+
+            <StyledMargin direction="vertical" margin="1.8rem" />
+            {attendees.length > 0 ? (
+              <AttendeesSection>
+                {attendees.map((attendee, index) => (
+                  <MyMeetupImage
+                    key={index}
+                    src={attendee.avatar}
+                    alt={attendee.name}
+                  />
+                ))}
+              </AttendeesSection>
+            ) : (
+              <div>No attendees yet</div>
+            )}
+
+            <StyledMargin direction="vertical" margin="2rem" />
+            <button onClick={handleDelete} disabled={isDeleting}>
+              {isDeleting ? "Deleting..." : "Delete Meetup"}
+            </button>
+          </StyledMyJobPage>
+        </>
+      )}
     </div>
   );
 }

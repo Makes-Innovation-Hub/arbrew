@@ -18,7 +18,7 @@ const MeetupDetailsPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { meetupId } = useParams();
-  const { data, error, isLoading } = useGetMeetupByIdQuery(meetupId);
+  const { data, error, isLoading, isError } = useGetMeetupByIdQuery(meetupId);
   const storedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
   const [isAttending, setIsAttending] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
@@ -52,13 +52,8 @@ const MeetupDetailsPage = () => {
     }
   };
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
-  if (error) {
-    console.error(error);
-    return <div>{t("error_fetching_meetup_details")}</div>;
+  if (isError) {
+    console.error("error fetching meetup details", error);
   }
   const handleMapButtonClick = async () => {
     try {
@@ -107,26 +102,30 @@ const MeetupDetailsPage = () => {
           title={t("meetup_page")}
         />
       </StyledMargin>
-      <UpcomingStyledPage>
-        {data && data.data && (
-          <MeetupDetailsDisplay
-            key={data.data._id}
-            title={data.data.title}
-            date={data.data.date}
-            time={data.data.time}
-            location={data.data.location}
-            price={data.data.price}
-            description={data.data.description}
-            isAttending={isAttending}
-            attendees={data.data.attendees}
-            onAttendClick={handleAttendButtonClick}
-            meetupId={meetupId}
-            isOwner={isOwner}
-            handleDeleteMeetup={handleDeleteButtonClick}
-            handleMapButtonClick={handleMapButtonClick}
-          />
-        )}
-      </UpcomingStyledPage>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <UpcomingStyledPage>
+          {data && data.data && (
+            <MeetupDetailsDisplay
+              key={data.data._id}
+              title={data.data.title}
+              date={data.data.date}
+              time={data.data.time}
+              location={data.data.location}
+              price={data.data.price}
+              description={data.data.description}
+              isAttending={isAttending}
+              attendees={data.data.attendees}
+              onAttendClick={handleAttendButtonClick}
+              meetupId={meetupId}
+              isOwner={isOwner}
+              handleDeleteMeetup={handleDeleteButtonClick}
+              handleMapButtonClick={handleMapButtonClick}
+            />
+          )}
+        </UpcomingStyledPage>
+      )}
     </div>
   );
 };

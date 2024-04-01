@@ -1,5 +1,10 @@
 import React from "react";
-import { StyledMargin } from "../../../styles";
+import {
+  CenteredText,
+  MainButton,
+  StyledMargin,
+  StyledPage,
+} from "../../../styles";
 import { Header } from "../../../components";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, SmallGlass } from "../../../assets";
@@ -32,13 +37,7 @@ function MyJobPosts() {
 
   const { data, isLoading, isError, isSuccess } = useGetUserJobPostsQuery();
 
-  if (!data) {
-    return <LoadingSpinner />;
-  }
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  } else if (isError) {
+  if (isError) {
     return <div>{t("error_fetching_job_details")}</div>;
   }
 
@@ -58,22 +57,35 @@ function MyJobPosts() {
           title={<SmallGlass />}
         />
       </StyledMargin>
-      <StyledMyJobPage>
-        <Center>
-          <StyledMyPostJobTitle>{t("my_job_posts")}</StyledMyPostJobTitle>
-        </Center>
-        <StyledMargin direction="vertical" margin="1.8rem" />
-        {data.jobPosts.map((job) => (
-          <MyJobPostsComponent
-            key={job.id}
-            jobTitle={job.title}
-            company={job.company}
-            city={job.city}
-            model={job.model}
-            onClick={() => handleClick(job.id)}
-          />
-        ))}
-      </StyledMyJobPage>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <StyledMyJobPage>
+          <Center>
+            <StyledMyPostJobTitle>{t("my_job_posts")}</StyledMyPostJobTitle>
+          </Center>
+          <StyledMargin direction="vertical" margin="1.8rem" />
+          {data?.length > 0 ? (
+            data?.jobPosts.map((job) => (
+              <MyJobPostsComponent
+                key={job.id}
+                jobTitle={job.title}
+                company={job.company}
+                city={job.city}
+                model={job.model}
+                onClick={() => handleClick(job.id)}
+              />
+            ))
+          ) : (
+            <StyledPage>
+              <CenteredText>No Jobs Posted</CenteredText>
+              <MainButton onClick={() => navigate("/postJob")}>
+                Post A Job
+              </MainButton>
+            </StyledPage>
+          )}
+        </StyledMyJobPage>
+      )}
     </div>
   );
 }
