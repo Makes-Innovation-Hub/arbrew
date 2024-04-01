@@ -29,11 +29,19 @@ function SearchColleaguesConversation() {
   const { search } = useLocation();
   const hub = search.split("=")[1];
 
-  const { data: chats, error, isLoading } = useGetUserChatsListQuery(hub);
+  const {
+    data: chats,
+    error,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetUserChatsListQuery(hub);
   console.log(chats);
-  if (error) {
-    console.log(error);
-    return <div>Error occurred while fetching chats.</div>;
+  useEffect(() => {
+    refetch();
+  }, []);
+  if (isError) {
+    console.log("Error occurred while fetching chats.", error);
   }
   return (
     <div>

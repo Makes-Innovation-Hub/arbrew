@@ -10,6 +10,7 @@ import {
   StyledInput,
   StyledSpan,
   Flex,
+  MainButton,
 } from "../../styles";
 import { ArrowLeft } from "../../assets";
 import { addDetail } from "../../features/userRegister/userRegisterSlice";
@@ -42,7 +43,7 @@ function PostJob() {
   const [isJobId, setIsJobId] = useState(false);
 
   const [createJob, { isSuccess, isError, error }] = useCreateJobMutation();
-  const { data, isSuccess2 } = useGetJobByIdQuery(JobId);
+  const { data, isSuccess2 } = useGetJobByIdQuery(JobId, { skip: !JobId });
   const [updateJob] = useUpdateJobMutation();
 
   const [jobTitleInput, setJobTitleInput] = useState({
@@ -184,12 +185,9 @@ function PostJob() {
         }
         title={t("post_job")}
       />
-      <StyledPage>
-        <StyledMargin direction="vertical" margin="1.75rem" />
-        <StyledMargin direction="horizontal" margin="35rem">
-          <StyledPageTitle>{t("add_job_title")}</StyledPageTitle>
-        </StyledMargin>
-        <StyledMargin direction="vertical" margin="1.8rem" />
+      <StyledPage style={{ width: "100%", margin: "auto", gap: "16px" }}>
+        <StyledPageTitle>{t("add_job_title")}</StyledPageTitle>
+
         <StyledInput
           type="text"
           value={jobTitleInputValue}
@@ -199,20 +197,16 @@ function PostJob() {
           }
           placeholder={t("write_here_job_title")}
         />
-        <StyledMargin direction="vertical" margin="2.6rem" />
         <Flex>
-          <StyledMargin direction="horizontal" margin="25rem" />
           <StyledSpan fontSize="12px" color="#7F8790" alignSelf="flex-end">
             {30 - jobTitleCharacterCount} {t("character")}
           </StyledSpan>
         </Flex>
 
         {/* Company Info */}
-        <StyledMargin direction="vertical" margin="2.5rem" />
-        <StyledMargin direction="horizontal" margin="35rem">
-          <StyledPageTitle>{t("add_company_name")}</StyledPageTitle>
-        </StyledMargin>
-        <StyledMargin direction="vertical" margin="1.8rem" />
+        {/* <StyledMargin direction="horizontal" margin="35rem"> */}
+        <StyledPageTitle>{t("add_company_name")}</StyledPageTitle>
+        {/* </StyledMargin> */}
         <StyledInput
           type="text"
           value={companyNameValue}
@@ -222,20 +216,16 @@ function PostJob() {
           }
           placeholder={t("write_here_company_name")}
         />
-        <StyledMargin direction="vertical" margin="2.6rem" />
+
         <Flex>
-          <StyledMargin direction="horizontal" margin="25rem" />
           <StyledSpan fontSize="12px" color="#7F8790" alignSelf="flex-end">
             {30 - companyNameCharacterCount} {t("character")}
           </StyledSpan>
         </Flex>
         {/* add city */}
 
-        <StyledMargin direction="vertical" margin="1.75rem" />
-        <StyledMargin direction="horizontal" margin="35rem">
-          <StyledPageTitle>{t("add_city")}</StyledPageTitle>
-        </StyledMargin>
-        <StyledMargin direction="vertical" margin="1.8rem" />
+        <StyledPageTitle>{t("add_city")}</StyledPageTitle>
+
         <StyledInput
           type="text"
           value={cityValue}
@@ -245,13 +235,10 @@ function PostJob() {
           }
           placeholder={t("write_here_city")}
         />
-        <StyledMargin direction="vertical" margin="2.6rem" />
 
         {/* work model */}
-        <StyledMargin direction="vertical" margin="1.75rem" />
-        <StyledMargin direction="horizontal" margin="35rem">
-          <StyledPageTitle>{t("work_model")}</StyledPageTitle>
-        </StyledMargin>
+
+        <StyledPageTitle>{t("work_model")}</StyledPageTitle>
 
         <StyledWorkModelDropDown
           optionsArray={workModelOptions}
@@ -260,15 +247,13 @@ function PostJob() {
           setSelected={setWorkModelInput}
           isSearchable={false}
         />
-        <StyledMargin direction="vertical" margin="2.6rem" />
 
         {/* Add Job Description*/}
-        <StyledMargin direction="vertical" margin="2.5rem" />
-        <StyledMargin direction="horizontal" margin="35rem">
-          <StyledPageTitle>{t("add_job_description")}</StyledPageTitle>
-        </StyledMargin>
-        <StyledMargin direction="vertical" margin="1.8rem" />
+
+        <StyledPageTitle>{t("add_job_description")}</StyledPageTitle>
+
         <MeetupTextArea
+          style={{ width: "80%" }}
           value={workDescriptionValue}
           placeholder={t("write_here_job_description")}
           maxLength={500}
@@ -279,9 +264,8 @@ function PostJob() {
             })
           }
         ></MeetupTextArea>
-        <StyledMargin direction="vertical" margin="2.6rem" />
+
         <Flex>
-          <StyledMargin direction="horizontal" margin="25rem" />
           <StyledSpan fontSize="12px" color="#7F8790" alignSelf="flex-end">
             {500 - workDescriptionCharacterCount} {t("character")}
           </StyledSpan>
@@ -296,13 +280,13 @@ function PostJob() {
         )}
         <StyledMargin direction="vertical" margin="3rem" />
         {isJobId ? (
-          <JopPostButton onClick={handleUpdateJob} text={t("post_job")}>
+          <MainButton onClick={handleUpdateJob} text={t("post_job")}>
             Update
-          </JopPostButton>
+          </MainButton>
         ) : (
-          <JopPostButton onClick={handlePost} text={t("post_job")}>
+          <MainButton onClick={handlePost} text={t("post_job")}>
             Post Job
-          </JopPostButton>
+          </MainButton>
         )}
       </StyledPage>
     </div>

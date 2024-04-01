@@ -18,7 +18,9 @@ const MeetupDetailsPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { meetupId } = useParams();
-  const { data, error, isLoading, isError } = useGetMeetupByIdQuery(meetupId);
+  const { data, error, isLoading, isError } = useGetMeetupByIdQuery(meetupId, {
+    skip: !meetupId,
+  });
   const storedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
   const [isAttending, setIsAttending] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
