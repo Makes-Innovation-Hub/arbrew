@@ -24,7 +24,6 @@ const MyMeetupPage = () => {
   const [randomAvatars, setRandomAvatars] = useState([]);
 
   useEffect(() => {
-    console.log("All Meetups:", meetupById);
     if (meetupById && meetupById.data) {
       const targetMeetup = meetupById.data;
       if (targetMeetup) {

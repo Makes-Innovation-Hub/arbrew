@@ -60,7 +60,6 @@ const MeetupDetailsPage = () => {
   const handleMapButtonClick = async () => {
     try {
       const location = data?.data?.location;
-      console.log("Location clicked:", location);
 
       if (!location) {
         console.error("Location data not found");
@@ -77,8 +76,6 @@ const MeetupDetailsPage = () => {
 
       if (responseData.length > 0) {
         const { lat, lon } = responseData[0];
-        console.log("Latitude:", lat);
-        console.log("Longitude:", lon);
 
         const queryParams = new URLSearchParams({ location: `${lat},${lon}` });
         const url = `/Map?${queryParams.toString()}`;

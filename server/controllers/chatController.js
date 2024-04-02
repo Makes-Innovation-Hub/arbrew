@@ -22,9 +22,6 @@ export const createChat = async (req, res, next) => {
     let hub = req.body.hub;
     let message = req.body.message;
     if (user1Id !== req.user.id && user2Id !== req.user.id) {
-      console.log(user1Id === req.user.id);
-      console.log(user2Id === req.user.id);
-      console.log("token owner id", req.user.id);
       res.status(STATUS_CODES.UNAUTHORIZED);
       throw new Error("User is not authorized for this operation");
     }
@@ -59,7 +56,6 @@ export const createChat = async (req, res, next) => {
         sender.userDetails.nativeLanguage,
         receiver.userDetails.nativeLanguage
       );
-      console.log("the translated msg in chat controller  ", translatedMsg);
       foundChat = new ChatCollection();
       foundChat.users = [user1Id, user2Id];
       foundChat.hub = hub;
@@ -84,11 +80,9 @@ export const createChat = async (req, res, next) => {
 //! @access  NOT SET YET
 export const GetChatByUsersIds = async (req, res, next) => {
   try {
-    console.log("in GetChatByUsersIds");
     const user1Id = req.query.sender;
     const user2Id = req.query.receiver;
     const hub = req.query.hub;
-    console.log(user1Id);
     if (user1Id !== req.user.id && user2Id !== req.user.id) {
       res.status(STATUS_CODES.UNAUTHORIZED);
       throw new Error("User not authorized");
@@ -149,11 +143,9 @@ export const getChatById = async (req, res, next) => {
 //$ @route   GET /api/chat/open-conversations/?hub="work"||"hobbies"
 //! @access  NOT SET YET
 export const getUserChatsList = async (req, res, next) => {
-  console.log("entering");
   try {
     const userId = req.user.id;
     const hub = req.query.hub;
-    console.log("my hub" + hub);
     if (!userId || !hub) {
       res.status(STATUS_CODES.VALIDATION_ERROR);
       throw new Error("Must Provide userId and hub");
@@ -184,7 +176,6 @@ export const getUserChatsList = async (req, res, next) => {
       throw new Error("failed retrieving no chats were found");
     }
     if (userChats.length > 0) {
-      console.log("userChats", userChats);
       userChats = await Promise.all(
         userChats.map(async (chat) => {
           const { users, messages } = chat;
@@ -198,7 +189,7 @@ export const getUserChatsList = async (req, res, next) => {
             : latestMessage(messages)?.translatedContent;
           //   currently no translation return original message
           // latestMessage(messages)?.translated_Content[senderLang];
-          console.log("chat info", chat);
+
           return {
             chatId: chat._id,
             chatHub: chat.hub,
@@ -208,7 +199,7 @@ export const getUserChatsList = async (req, res, next) => {
           };
         })
       ).catch((err) => {
-        console.log("err in finding chat msg", err);
+        errorLogger(err, req, res, next);
       });
     }
 
@@ -219,8 +210,6 @@ export const getUserChatsList = async (req, res, next) => {
   } catch (error) {
     // Logging error
     errorLogger(error, req, res, next);
-
-    next(error);
   }
 };
 
@@ -244,7 +233,6 @@ export const addMessage = async (req, res, next) => {
       res.status(STATUS_CODES.VALIDATION_ERROR);
       throw new Error("Missing Content");
     }
-    console.log("add message req body", req.body);
     let newMessage = {
       sender,
       originalContent,

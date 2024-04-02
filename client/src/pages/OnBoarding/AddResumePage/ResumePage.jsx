@@ -37,7 +37,6 @@ function ResumePage() {
     field: "resume",
     value: "",
   });
-  // console.log(resumeInput);
   const { value } = resumeInput;
   const characterCount = value.length; // to save the number of char written
   useEffect(() => {
@@ -60,7 +59,6 @@ function ResumePage() {
 
   useEffect(() => {
     if (isSuccess) {
-      // console.log("success");
       navigate("/chooseHub");
     }
     if (isError) {

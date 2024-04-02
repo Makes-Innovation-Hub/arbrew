@@ -6,9 +6,6 @@ import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 
 const MapComponent = ({ lat, lon }) => {
-  console.log("Received lat:", lat);
-  console.log("Received lon:", lon);
-
   if (isNaN(lat) || isNaN(lon)) {
     console.error("Invalid latitude or longitude:", lat, lon);
     return null;

@@ -36,7 +36,6 @@ function SearchColleaguesConversation() {
     isError,
     refetch,
   } = useGetUserChatsListQuery(hub);
-  console.log(chats);
   useEffect(() => {
     refetch();
   }, []);

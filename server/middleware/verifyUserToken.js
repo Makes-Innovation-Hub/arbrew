@@ -27,16 +27,12 @@ export const validateToken = async (req, res, next) => {
         token: token,
       });
 
-      console.log("verifyToken user info ", user);
-      console.log("verifyToken decoded info ", decoded);
       if (!token || !user) {
         res.status(STATUS_CODES.UNAUTHORIZED);
         throw new Error("User is not Authorized or token is missing");
       }
       req.token = token;
       req.user = user;
-      console.log(user);
-
       next();
     } else {
       res.status(STATUS_CODES.UNAUTHORIZED);

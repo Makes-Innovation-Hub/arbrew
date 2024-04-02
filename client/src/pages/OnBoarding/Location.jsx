@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "../../components";
 import {
@@ -11,15 +11,46 @@ import {
 } from "../../styles";
 import { ArrowLeft } from "../../assets";
 import { addDetail } from "../../features/userRegister/userRegisterSlice";
-
+import AutocompleteDropdown from "../Meetup/AutocompleteDropdown/AutocompleteDropdown";
 const Location = () => {
   const [location, setLocation] = useState({
     value: "",
     field: "address",
   });
-
+  const [suggestions, setSuggestions] = useState([]);
+  const timeoutRef = useRef(null);
   const dispatch = useDispatch();
   const { value } = location;
+
+  const handleLocationChange = useCallback(async (e) => {
+    const currentValue = e.target.value;
+    if (!currentValue.trim()) {
+      setLocation({ ...location, value: "" });
+      return;
+    }
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(async () => {
+      try {
+        const apiKey = import.meta.env.VITE_ADDRESS_TOKEN;
+        const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
+          currentValue.trim()
+        )}&limit=5&apiKey=${apiKey}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        setSuggestions(data.features);
+      } catch (error) {
+        console.error("Error fetching autocomplete data:", error);
+      }
+    }, 300);
+    setLocation({ ...location, value: currentValue });
+  }, []);
+
+  const handleSuggestionClick = (suggestion) => {
+    setLocation({ ...location, value: suggestion.properties.formatted });
+    setSuggestions([]);
+  };
 
   return (
     <div>
@@ -37,13 +68,22 @@ const Location = () => {
           <StyledPageTitle>Add your Location</StyledPageTitle>
         </StyledMargin>
         <StyledMargin direction="vertical" margin="9.25rem" />
-        <StyledInput
-          type="text"
-          value={value}
-          onChange={(e) => setLocation({ ...location, value: e.target.value })}
-          placeholder="Add Location"
-          borderColor="#1E75E5"
-        />
+        <div style={{ width: "100%" }}>
+          <StyledInput
+            style={{ margin: "auto" }}
+            type="text"
+            value={value}
+            onChange={handleLocationChange}
+            placeholder="Add Location"
+            borderColor="#1E75E5"
+          />
+          {suggestions?.length > 0 && (
+            <AutocompleteDropdown
+              suggestions={suggestions}
+              handleSuggestionClick={handleSuggestionClick}
+            />
+          )}
+        </div>
         <StyledButton
           to={value ? "/gender" : null}
           onClick={() => {

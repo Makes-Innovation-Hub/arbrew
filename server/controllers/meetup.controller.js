@@ -124,7 +124,6 @@ export const attendMeetup = async (req, res, next) => {
   try {
     const meetup = await Meetup.findById(id);
     const user = await User.findById(req.user._id);
-    console.log("attend mettup user heloooo", user);
     // check if meetup exists
     if (!meetup) {
       res.status(STATUS_CODES.NOT_FOUND);
@@ -133,7 +132,7 @@ export const attendMeetup = async (req, res, next) => {
 
     // toggle whether user is attending or not
     const userIndex = meetup.attendees.indexOf(user.id);
-    console.log(userIndex);
+
     if (userIndex === -1) {
       // User hasn't attended the meeting yet, add user
       meetup.attendees.push(user);

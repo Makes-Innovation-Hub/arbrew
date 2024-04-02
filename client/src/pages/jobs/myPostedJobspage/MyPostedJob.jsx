@@ -31,10 +31,16 @@ function MyPostedJob() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data: job, isLoading, isError, isSuccess } = useGetJobByIdQuery(id);
+  const {
+    data: job,
+    isLoading,
+    isError,
+    isSuccess,
+    error,
+  } = useGetJobByIdQuery(id);
   const [deleteJob] = useDeleteJobMutation();
   if (isError) {
-    console.log("error_fetching_job_details");
+    console.log("error_fetching_job_details", error);
   }
 
   const handleAppliers = () => {
@@ -50,7 +56,6 @@ function MyPostedJob() {
         console.error("Original status:", response.error.originalStatus);
         return;
       }
-      console.log("Job deleted successfully");
       navigate("/myJobsPosted");
     } catch (error) {
       console.error("Error deleting job:", error);

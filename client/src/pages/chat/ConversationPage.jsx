@@ -37,8 +37,7 @@ const ConversationPage = () => {
   }, []);
 
   if (error) {
-    console.log(error);
-    return <div>Error occurred while fetching chats.</div>;
+    console.log("Error occurred while fetching chats.", error);
   }
   return (
     <div>

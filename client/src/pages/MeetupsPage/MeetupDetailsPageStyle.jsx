@@ -82,7 +82,7 @@ const MeetupDetailsDisplay = ({
   };
 
   const handleLocationClick = () => {
-    console.log("Location clicked:", location); // Log location data
+    // Log location data
     handleMapButtonClick(location);
   };
   return (

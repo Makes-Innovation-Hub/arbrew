@@ -14,7 +14,6 @@ import { StyledApplierImg } from "../jobs/jobAppliers/StylesApplierPage";
 const AttendeesPage = () => {
   const { id } = useParams();
   const { data, isLoading, isError, isSuccess } = useGetMeetupByIdQuery(id);
-  console.log(data);
 
   const handleBack = () => {
     window.history.back();

@@ -25,7 +25,6 @@ function MyMeetups() {
   const [isSideBar, setIsSideBar] = useState(false);
   const { data, error, isLoading } = useGetMyMeetupsQuery();
   const navigation = useNavigate();
-  console.log(data);
 
   const handleNavigation = (meetupId) => {
     navigation(`/myMeetupPage/${meetupId}`);
