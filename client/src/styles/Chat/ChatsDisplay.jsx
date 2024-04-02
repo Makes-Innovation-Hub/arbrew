@@ -10,5 +10,5 @@ export const ChatsDisplay = styled.div`
   height: 100dvh;
   gap: 2rem;
   scroll-y: auto;
-  margin-bottom:50px;
+  margin-bottom:80px;
 `;
