@@ -58,8 +58,6 @@ export default function HeaderLayout() {
             } else {
               newUserData.name = user.nickname;
             }
-            // console.log("user", user);
-            // console.log("newUserData", newUserData);
             updateUserData(newUserData);
             dispatch(addAuth0Details(newUserData));
             navigate("/lang");

@@ -10,11 +10,10 @@ function Profile() {
   if (!search || typeof search !== "string") {
     return null;
   }
-  // console.log(search)
+
   //?type=work&userId=65d5c5e951762c9fa64579ba
   // const params = URLSearchParams(search);
   const type = search.split("?")[1].split("=")[1].split("&")[0];
-  // console.log(type)
   const userId = search.split("&")[1].split("=")[1];
   return (
     <div>

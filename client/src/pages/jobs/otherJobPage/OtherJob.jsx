@@ -73,7 +73,6 @@ function OtherJob() {
         console.error("Original status:", response.error.originalStatus);
         return;
       }
-      console.log("Job deleted successfully");
       navigate("/myJobsPosted");
     } catch (error) {
       console.error("Error deleting job:", error);
@@ -86,7 +85,6 @@ function OtherJob() {
         resume: storedUser.userDetails.resume,
         jobId: job.job.id,
       });
-      console.log(file);
 
       if (file && file.length > 0) {
         const updateData = {
@@ -97,14 +95,11 @@ function OtherJob() {
           id: storedUser.id,
           userData: updateData,
         });
-        console.log("user updated successfully:", response.data);
       } else {
         console.log("No file selected");
       }
-      console.log("Job application successful:", data);
     } catch (error) {
       console.log("error applying to job", error);
-      console.log("Error Updating User", error.message);
     }
   };
 

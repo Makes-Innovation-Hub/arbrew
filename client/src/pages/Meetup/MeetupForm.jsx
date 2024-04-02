@@ -81,10 +81,8 @@ const MeetupForm = () => {
       location,
       owner: myUser.id,
     };
-    console.log("Meetup Data: ffffffff", meetupData);
     try {
       const response = await createMeetup(meetupData);
-      console.log("Meetup created successfully:", response);
       navigate("/My-meetups-page");
     } catch (error) {
       console.error("Error creating meetup:", error);
@@ -107,7 +105,6 @@ const MeetupForm = () => {
         meetupId: meetupId,
         meetupData: updatedData,
       });
-      console.log("Meetup updated successfully:", response.data);
       navigate(`/MeetupDetailsPage/${meetupId}`);
     } catch (error) {
       console.error("Error updating meetup:", error);

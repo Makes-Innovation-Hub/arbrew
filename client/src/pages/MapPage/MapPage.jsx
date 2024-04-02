@@ -28,7 +28,6 @@ const MapPage = () => {
   const { lat, lon } = extractLatLon(location);
 
   const coordinatesString = `${lat},${lon}`;
-  console.log("Coordinates:", coordinatesString);
 
   return (
     <div>

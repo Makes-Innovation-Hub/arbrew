@@ -32,7 +32,6 @@ describe("Job Tests", async () => {
       };
       const result = await fetch(baseURL, requestOptions);
 
-      //   console.log(result);
       assert.strictEqual(result.status, 201);
       const response = await result.json();
       globalJobId = response.newJob.id;
@@ -183,7 +182,6 @@ describe("Job Tests", async () => {
         body: JSON.stringify(body),
       };
       const result = await fetch(baseURL, requestOptions);
-      //   console.log(result);
       assert.strictEqual(result.status, 401);
     });
   });
@@ -197,7 +195,6 @@ describe("Job Tests", async () => {
         headers: headers,
       };
       const result = await fetch(baseURL + `/${globalJobId}`, requestOptions);
-      //   console.log(result);
       assert.strictEqual(result.status, 200);
     });
   });

@@ -31,7 +31,6 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     await newUser.save();
     successLogger("registerUser", "User registration succeeded");
 
-    console.log(newUser);
     timingLogger("registerUser", startTime);
     return res.status(201).json({
       success: true,
@@ -65,7 +64,7 @@ export const getUser = asyncHandler(async (req, res, next) => {
       data: user,
     });
   } catch (error) {
-    console.log("error", error);
+    errorLogger(error, req, res, next);
   }
 });
 
@@ -90,7 +89,7 @@ export const getUserById = asyncHandler(async (req, res, next) => {
       data: user,
     });
   } catch (error) {
-    console.log("error", error);
+    errorLogger(error, req, res, next);
   }
 });
 

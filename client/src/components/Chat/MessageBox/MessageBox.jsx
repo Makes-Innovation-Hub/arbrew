@@ -2,8 +2,6 @@ import CoffeMug from "../../../assets/CoffeeMugWithGreenBG.svg";
 import { Suggestion, SuggestionText } from "../../styles/Suggestion";
 
 export default function MessageBox({ message, loggedUser }) {
-  // console.log(message);
-  // console.log(loggedUser);
   if (message.sender === "server") {
     return (
       <Suggestion>

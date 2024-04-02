@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const baseUrl = import.meta.env.VITE_SERVER_BASE_URL;
 const getToken = () => {
   const storedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
-  // console.log("storedUser: ", storedUser);
   const token = storedUser.token;
 
   if (token) {
@@ -10,8 +9,6 @@ const getToken = () => {
   }
   return null; // Return null if the token isn't found // Example: Get the token from session storage
 };
-
-// console.log(token);
 const jobApi = createApi({
   reducerPath: "jobApi",
   baseQuery: fetchBaseQuery({
@@ -19,10 +16,8 @@ const jobApi = createApi({
     tagTypes: ["Job"],
     prepareHeaders: (headers) => {
       // Call your function to get the authentication token
-      // console.log(token);
 
       const token = getToken();
-      // console.log(token);
       // If the token exists, set the Authorization header
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
@@ -40,7 +35,6 @@ const jobApi = createApi({
       }),
       invalidatesTags: ["Job"],
       transformResponse: (response, meta, arg) => {
-        console.log(response);
         return response;
       },
     }),

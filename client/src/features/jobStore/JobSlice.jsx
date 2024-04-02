@@ -11,7 +11,6 @@ const initialState = {
 };
 
 const storedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
-// console.log(storedUser)
 
 export const jobSlice = createSlice({
   name: "job",
@@ -22,12 +21,10 @@ export const jobSlice = createSlice({
       state[field] = value;
       if (storedUser) {
         state.postedBy = storedUser._id;
-        // console.log(storedUser._id)
       }
     },
   },
 });
-// console.log(initialState)
 export const { addJobDetail } = jobSlice.actions;
 
 export default jobSlice.reducer;

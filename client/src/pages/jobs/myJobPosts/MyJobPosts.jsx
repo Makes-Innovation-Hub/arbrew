@@ -36,7 +36,6 @@ function MyJobPosts() {
   }
 
   const { data, isLoading, isError, isSuccess } = useGetUserJobPostsQuery();
-  console.log(data);
 
   if (isError) {
     return <div>{t("error_fetching_job_details")}</div>;

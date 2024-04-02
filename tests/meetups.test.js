@@ -53,7 +53,6 @@ describe("Create Meetup Test", () => {
 
     const responseData = await res.json();
     createdMeetupId = responseData.data.id;
-    // console.log(createdMeetupId);
 
     assert.strictEqual(res.status, 201);
   });
@@ -91,7 +90,6 @@ describe("Create Meetup Test", () => {
           `http://localhost:${PORT}/api/meetup/${createdMeetupId}`,
           requestOptions
         );
-        // console.log(deleteResponse);
         assert.strictEqual(deleteResponse.status, 200);
       } catch (error) {
         console.error("Error deleting meetup:", error);
@@ -131,7 +129,6 @@ describe("Get Meeting from DB Test", () => {
     );
     const responseData = await res.json();
     createdMeetupId = responseData.data.id;
-    // console.log(createdMeetupId);
   });
 
   it("should GET the specific meeting by meetingId", async function () {
@@ -164,7 +161,6 @@ describe("Get Meeting from DB Test", () => {
           `http://localhost:${PORT}/api/meetup/${createdMeetupId}`,
           requestOptions
         );
-        // console.log(deleteResponse);
         assert.strictEqual(deleteResponse.status, 200);
       } catch (error) {
         console.error("Error deleting meetup:", error);

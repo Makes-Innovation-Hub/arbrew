@@ -35,13 +35,12 @@ import { useSelector } from "react-redux";
 
 const ProfilePageHobbies = () => {
   const profileData = useSelector((state) => state.userRegister);
-  console.log("profileData :", profileData);
+
   const { data: loggedUser } = useGetLoggedUserQuery(profileData.subId);
-  console.log("loggedUser:", loggedUser);
 
   // Check if the profile being viewed is the logged-in user's own profile
   const isOwnProfile = loggedUser?.data?.subId === profileData?.subId;
-  console.log("isOwnProfile :", isOwnProfile);
+
   // Render the ChatIcon only if the profile is not the logged-in user's own profile
   const renderChatIcon = !isOwnProfile ? (
     <CircleIcon>

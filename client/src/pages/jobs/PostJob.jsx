@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Header } from "../../components";
 import {
@@ -29,6 +29,7 @@ import {
   MeetupTextArea,
 } from "../../styles/Meetup/MeetupStyledPage";
 import { JopPostButton } from "./myPostedJobspage/StyledMyJobPage";
+import AutocompleteDropdown from "../Meetup/AutocompleteDropdown/AutocompleteDropdown";
 
 function PostJob() {
   const dispatch = useDispatch();
@@ -41,10 +42,12 @@ function PostJob() {
   const [isDetailAdded, setIsDetailAdded] = useState(false);
   const { t, i18n } = useTranslation();
   const [isJobId, setIsJobId] = useState(false);
-
   const [createJob, { isSuccess, isError, error }] = useCreateJobMutation();
   const { data, isSuccess2 } = useGetJobByIdQuery(JobId, { skip: !JobId });
   const [updateJob] = useUpdateJobMutation();
+  const [location, setLocation] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const timeoutRef = useRef(null);
 
   const [jobTitleInput, setJobTitleInput] = useState({
     field: "jobTitle",
@@ -87,6 +90,36 @@ function PostJob() {
     { label: "Hybrid", value: "Hybrid" },
     { label: "From Home", value: "From Home" },
   ];
+
+  const handleLocationChange = useCallback(async (e) => {
+    const currentValue = e.target.value;
+    if (!currentValue.trim()) {
+      setCityInput({ ...cityInput, value: "" });
+      return;
+    }
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(async () => {
+      try {
+        const apiKey = import.meta.env.VITE_ADDRESS_TOKEN;
+        const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
+          currentValue.trim()
+        )}&limit=5&apiKey=${apiKey}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        setSuggestions(data.features);
+      } catch (error) {
+        console.error("Error fetching autocomplete data:", error);
+      }
+    }, 300);
+    setCityInput({ ...cityInput, value: currentValue });
+  }, []);
+
+  const handleSuggestionClick = (suggestion) => {
+    setCityInput({ ...cityInput, value: suggestion.properties.formatted });
+    setSuggestions([]);
+  };
 
   useEffect(() => {
     if (workDescriptionValue.length === 500) {
@@ -165,7 +198,6 @@ function PostJob() {
         jobId: JobId,
         jobUpdates: updatedData,
       });
-      console.log("Job updated successfully:", response.data);
       navigate(`/otherJob/${JobId}`);
     } catch (error) {
       console.error("Error updating Job:", error);
@@ -225,17 +257,22 @@ function PostJob() {
         {/* add city */}
 
         <StyledPageTitle>{t("add_city")}</StyledPageTitle>
-
-        <StyledInput
-          type="text"
-          value={cityValue}
-          maxLength={30}
-          onChange={(e) =>
-            setCityInput({ ...cityInput, value: e.target.value })
-          }
-          placeholder={t("write_here_city")}
-        />
-
+        <div style={{ width: "100%" }}>
+          <StyledInput
+            style={{ margin: "auto" }}
+            type="text"
+            value={cityInput.value}
+            maxLength={30}
+            onChange={handleLocationChange}
+            placeholder={t("write_here_city")}
+          />
+          {suggestions?.length > 0 && (
+            <AutocompleteDropdown
+              suggestions={suggestions}
+              handleSuggestionClick={handleSuggestionClick}
+            />
+          )}
+        </div>
         {/* work model */}
 
         <StyledPageTitle>{t("work_model")}</StyledPageTitle>

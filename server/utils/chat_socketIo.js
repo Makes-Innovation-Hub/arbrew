@@ -60,7 +60,6 @@ export const addMessageToChat = async (
     const messagesHistory = updatedChat.messages;
     return newMsgObj;
   } catch (error) {
-    console.log("error", error);
     throw new Error(error);
   }
 };
