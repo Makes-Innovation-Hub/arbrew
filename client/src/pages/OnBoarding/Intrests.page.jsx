@@ -33,7 +33,7 @@ const Interests = () => {
   const { interests } = useSelector((state) => state.userRegister.userDetails);
   const [selectedInterests, setSelectedInterests] = useState({
     field: "interests",
-    value: interests.length > 0 ? interests : [],
+    value: interests || [],
     interestsNumber: interests.length > 0 ? interests.length : 0,
   });
 

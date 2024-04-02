@@ -19,6 +19,7 @@ export default function HeaderLayout() {
   const [trigger, result, lastPromiseInfo] = useLazyGetLoggedUserQuery();
   // context
   const { userData, updateUserData, getEmptyUserObj } = useContext(UserContext);
+  const loggedUser = useSelector((state) => state.userRegister);
   useEffect(() => {
     async function handleNav() {
       if (error) {

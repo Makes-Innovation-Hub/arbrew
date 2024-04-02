@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { useSelector } from "react-redux";
 import {
@@ -28,6 +28,7 @@ import {
   ProfileWorkResume,
   ProfileWorkResumeData,
   ProfileWorkResumeContainer,
+  MainButton,
 } from "../styles";
 import {
   ArrowLeft,
@@ -40,6 +41,7 @@ import flags from "../assets/countriesAndFlags/by-code.json";
 import { useTranslation } from "react-i18next";
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const profileData = useSelector((state) => state.userRegister);
   const currentDate = new Date();
@@ -123,6 +125,7 @@ const ProfilePage = () => {
             </ProfileWorkResumeData>
           </ProfileWorkResumeContainer>
         </StyledProfilePage>
+        <MainButton onClick={() => navigate("/lang")}>Edit Profile</MainButton>
       </StyledPage>
     </div>
   );

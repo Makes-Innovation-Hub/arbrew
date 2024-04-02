@@ -14,11 +14,12 @@ import Option from "../../../styles/NationalityPage/CountriesCustomOPtions.jsx";
 import countries from "../../../assets/countriesAndFlags/countries.json";
 import { useNavigate, Link } from "react-router-dom";
 import { addDetail } from "../../../features/userRegister/userRegisterSlice.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import StyledButton from "../../../styles/StyledButton.jsx";
 export default function NationalityPage() {
+  const loggedUser = useSelector((state) => state.userRegister);
   const [selectedNationality, setSelectedNationality] = useState({
-    value: "",
+    value: loggedUser?.userDetails?.nationality || "",
     field: "nationality",
   });
   const navigate = useNavigate();
