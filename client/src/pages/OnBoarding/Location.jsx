@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "../../components";
@@ -13,8 +13,9 @@ import { ArrowLeft } from "../../assets";
 import { addDetail } from "../../features/userRegister/userRegisterSlice";
 import AutocompleteDropdown from "../Meetup/AutocompleteDropdown/AutocompleteDropdown";
 const Location = () => {
+  const loggedUser = useSelector((state) => state.userRegister);
   const [location, setLocation] = useState({
-    value: "",
+    value: loggedUser?.userDetails?.address || "",
     field: "address",
   });
   const [suggestions, setSuggestions] = useState([]);

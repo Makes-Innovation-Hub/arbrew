@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header.jsx";
@@ -16,8 +16,9 @@ import { addDetail } from "../../features/userRegister/userRegisterSlice.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const LangSelection = () => {
+  const loggedUser = useSelector((state) => state.userRegister);
   const [language, setLanguage] = useState({
-    value: "",
+    value: loggedUser?.userDetails?.nativeLanguage || "",
     field: "nativeLanguage",
   });
 

@@ -19,9 +19,10 @@ import { useRegisterUserMutation } from "../../../features/userDataApi.js";
 import StyledButton from "../../../styles/StyledButton.jsx";
 import Modal from "../../../styles/Modal/Modal.jsx";
 export default function BioPage() {
+  const loggedUser = useSelector((state) => state.userRegister);
   const dispatch = useDispatch();
   const [text, setText] = useState({
-    value: "",
+    value: loggedUser?.userDetails?.bio || "",
     field: "bio",
   });
   const [isDetailAdded, setIsDetailAdded] = useState(false);

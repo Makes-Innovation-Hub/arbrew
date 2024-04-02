@@ -35,7 +35,7 @@ function ResumePage() {
     useRegisterUserMutation();
   const [resumeInput, setResumeInput] = useState({
     field: "resume",
-    value: "",
+    value: userData?.userDetails?.resume || "",
   });
   const { value } = resumeInput;
   const characterCount = value.length; // to save the number of char written

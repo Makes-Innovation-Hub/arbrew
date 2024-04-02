@@ -11,16 +11,17 @@ import { BioStyledDiv } from "../../../styles/BioPage/BioStyledDiv.jsx";
 import CustomDropdown from "../../../styles/BirthPage/StyledDropDown.jsx";
 import { useState, useEffect } from "react";
 import arrowIcon from "../../../assets/arrow.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { addDetail } from "../../../features/userRegister/userRegisterSlice.jsx";
 import StyledButton from "../../../styles/StyledButton.jsx";
 
 export default function BirthPage() {
+  const loggedUser = useSelector((state) => state.userRegister);
   const [startYear, setStartYear] = useState(1980);
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState({
-    value: "",
+    value: loggedUser?.userDetails?.yearOfBirth || "",
     field: "yearOfBirth",
   });
 

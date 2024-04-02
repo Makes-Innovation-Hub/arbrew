@@ -73,14 +73,16 @@ const popularWorkFields = [
 const Occupation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { occupation } = useSelector((state) => state.userRegister.userDetails);
+  const { occupation, workField } = useSelector(
+    (state) => state.userRegister.userDetails
+  );
   const [occupationInput, setOccupationInput] = useState({
     field: "occupation",
-    value: occupation.length > 0 ? occupation : "",
+    value: occupation || "",
   });
   const [workFieldInput, setWorkFieldInput] = useState({
     field: "workField",
-    value: "",
+    value: workField || "",
   });
   const [showWorkFields, setShowWorkFields] = useState(false);
   const [filteredWorkFields, setFilteredWorkFields] = useState([]);

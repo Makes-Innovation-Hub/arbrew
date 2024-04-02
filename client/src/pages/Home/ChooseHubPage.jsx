@@ -16,10 +16,12 @@ import {
 } from "../../styles";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function ChooseHubPage() {
   const { t } = useTranslation();
-
+  const { user, isAuthenticated, isLoading, error, loginWithRedirect } =
+    useAuth0();
   const navigate = useNavigate();
   const [isSideBar, setIsSideBar] = useState(false);
 

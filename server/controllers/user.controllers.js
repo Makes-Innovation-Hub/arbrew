@@ -22,7 +22,11 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 
   const startTime = Date.now();
   try {
-    const newUser = await User.create(userInfo);
+    const newUser = await User.findOneAndUpdate(
+      { email: userInfo.email },
+      userInfo,
+      { new: true, upsert: true }
+    );
     if (!newUser) {
       errorLogger("error registering user", req, res, next);
       return next(new Error("error registering user", newUser));
