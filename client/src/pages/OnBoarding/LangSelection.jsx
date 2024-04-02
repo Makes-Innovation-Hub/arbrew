@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/Header.jsx";
 import {
   Flex,
@@ -23,7 +23,7 @@ const LangSelection = () => {
   });
 
   const { logout } = useAuth0();
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   return (
@@ -32,9 +32,11 @@ const LangSelection = () => {
         <Header
           leftIcon={
             <StyledHiddenButton
-              onClick={() =>
-                logout({ returnTo: window.location.origin + "/home" })
-              }
+              onClick={() => {
+                if (loggedUser?.userDetails?.nativeLanguage)
+                  navigate("/chooseHub");
+                else logout({ returnTo: window.location.origin + "/home" });
+              }}
             >
               <ArrowLeft />
             </StyledHiddenButton>
