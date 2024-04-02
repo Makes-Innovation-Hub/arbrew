@@ -199,12 +199,12 @@ function OtherJob() {
               multiselect={true}
               extensions={[".pdf", ".docx"]}
               disabled={job?.job?.applicants.some(
-                (applicant) => applicant.user.subId === storedUser.subId
+                (applicant) => applicant?.user?.subId === storedUser?.subId
               )}
             >
               <OtherPageButton>
                 {job?.job?.applicants.some(
-                  (applicant) => applicant.user.subId === storedUser.subId
+                  (applicant) => applicant?.user?.subId === storedUser?.subId
                 )
                   ? "Resume Sent"
                   : t("send_resume")}
